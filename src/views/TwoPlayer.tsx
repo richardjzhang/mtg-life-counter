@@ -1,21 +1,24 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { colors } from "../static/themes";
-import { useInterval } from "../utils/hooks";
-import { styled } from "../utils/styled";
-import Chevron from "../components/Chevron";
-import Cross from "../components/Cross";
-import MagicLogo from "../components/MagicLogo";
-import Reset from "../components/Reset";
+import { colors } from '../static/themes';
+import { useInterval } from '../utils/hooks';
+import { styled } from '../utils/styled';
+import Chevron from '../components/Chevron';
+import Cross from '../components/Cross';
+import Heart from '../components/Heart';
+import LeftArrow from '../components/LeftArrow';
+import MagicLogo from '../components/MagicLogo';
+import Reset from '../components/Reset';
 
-const INTIAL_LIFE_POINTS = 40;
 const CENTER_POSITION_HEIGHT = 10;
 const INCREMENT_INTERVAL_MS = 125;
+const POINTS_OPTIONS = [20, 40, 80];
 
 // Icon sizes
 const CHEVRON_ICON_SIZE = 30;
-const RESET_ICON_SIZE = 36;
+const ACTIONS_ICON_SIZE = 36;
 const CROSS_ICON_SIZE = 16;
+const LEFT_ARROW_ICON_SIZE = 24;
 
 const Container = styled.div`
   position: relative;
@@ -27,14 +30,14 @@ const Container = styled.div`
 `;
 
 const Section = styled.div<{ backgroundColor: string }>(props => ({
-  boxSizing: "border-box",
+  boxSizing: 'border-box',
   padding: 24,
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  textAlign: "center",
-  width: "100%",
-  height: "50%",
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  textAlign: 'center',
+  width: '100%',
+  height: '50%',
   color: colors.white,
   backgroundColor: props.backgroundColor
 }));
@@ -70,6 +73,7 @@ const CenterPosition = styled.div`
 const ActionsWrapper = styled.div`
   position: relative;
   padding: 12px 24px;
+  min-height: 60px;
   width: 100vw;
   box-sizing: border-box;
   display: flex;
@@ -78,18 +82,30 @@ const ActionsWrapper = styled.div`
   background-color: ${colors.codGray};
 `;
 
+const ActionsSeparator = styled.div`
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+`;
+
 const ChevronWrapper = styled.div<{ transform?: string }>(props => ({
-  cursor: "pointer",
-  transform: props.transform != null ? props.transform : "none"
+  cursor: 'pointer',
+  transform: props.transform != null ? props.transform : 'none'
 }));
 
-const ResetWrapper = styled.div`
+const ActionsIconWrapper = styled.div`
   cursor: pointer;
 `;
 
 const CrossWrapper = styled.div`
   position: absolute;
   right: 24px;
+  cursor: pointer;
+`;
+
+const LeftArrowWrapper = styled.div`
+  position: absolute;
+  left: 24px;
   cursor: pointer;
 `;
 
@@ -100,10 +116,19 @@ const LifePoints = styled.div`
   user-select: none;
 `;
 
+const PointsOption = styled.div<{ color: string }>(props => ({
+  fontSize: 32,
+  fontWeight: 600,
+  color: props.color,
+  cursor: 'pointer'
+}));
+
 const TwoPlayer = () => {
   const [showSettings, setShowSettings] = useState(false);
-  const [playerOneLife, setPlayerOneLife] = useState(INTIAL_LIFE_POINTS);
-  const [playerTwoLife, setPlayerTwoLife] = useState(INTIAL_LIFE_POINTS);
+  const [showSettingsLifePoints, setShowSettingsLifePoints] = useState(false);
+  const [initialLifePoints, setInitialLifePoints] = useState(40);
+  const [playerOneLife, setPlayerOneLife] = useState(initialLifePoints);
+  const [playerTwoLife, setPlayerTwoLife] = useState(initialLifePoints);
 
   // Fast increment
   const [incrementPlayerOne, setIncrementPlayerOne] = useState(false);
@@ -136,8 +161,8 @@ const TwoPlayer = () => {
   };
 
   const resetPoints = () => {
-    setPlayerOneLife(INTIAL_LIFE_POINTS);
-    setPlayerTwoLife(INTIAL_LIFE_POINTS);
+    setPlayerOneLife(initialLifePoints);
+    setPlayerTwoLife(initialLifePoints);
   };
 
   return (
@@ -172,9 +197,43 @@ const TwoPlayer = () => {
       </Section>
       {showSettings ? (
         <ActionsWrapper>
-          <ResetWrapper onClick={() => resetPoints()}>
-            <Reset size={RESET_ICON_SIZE} />
-          </ResetWrapper>
+          {showSettingsLifePoints ? (
+            <>
+              <LeftArrowWrapper
+                onClick={() => setShowSettingsLifePoints(false)}
+              >
+                <LeftArrow size={LEFT_ARROW_ICON_SIZE} />
+              </LeftArrowWrapper>
+              {POINTS_OPTIONS.map(points => (
+                <>
+                  <PointsOption
+                    key={points}
+                    color={
+                      initialLifePoints === points
+                        ? colors.white
+                        : colors.santasGray
+                    }
+                    onClick={() => setInitialLifePoints(20)}
+                  >
+                    {points}
+                  </PointsOption>
+                  <ActionsSeparator />
+                </>
+              ))}
+            </>
+          ) : (
+            <>
+              <ActionsIconWrapper
+                onClick={() => setShowSettingsLifePoints(true)}
+              >
+                <Heart size={ACTIONS_ICON_SIZE} />
+              </ActionsIconWrapper>
+              <ActionsSeparator />
+              <ActionsIconWrapper onClick={() => resetPoints()}>
+                <Reset size={ACTIONS_ICON_SIZE} />
+              </ActionsIconWrapper>
+            </>
+          )}
           <CrossWrapper onClick={() => setShowSettings(false)}>
             <Cross size={CROSS_ICON_SIZE} />
           </CrossWrapper>
