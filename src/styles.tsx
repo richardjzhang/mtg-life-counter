@@ -11,9 +11,12 @@ export const Container = styled.div`
   user-select: none;
 `;
 
-export const Section = styled.div<{ backgroundColor: string }>(props => ({
+export const Section = styled.div<{
+  backgroundColor?: string;
+  padding?: number;
+}>(props => ({
   boxSizing: 'border-box',
-  padding: 24,
+  padding: props.padding != null ? props.padding : 24,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -32,10 +35,25 @@ export const RotateSection = styled.div`
   }
 `;
 
-export const ChevronWrapper = styled.div<{ transform?: string }>(props => ({
-  cursor: 'pointer',
-  transform: props.transform != null ? props.transform : 'none'
+export const SectionColumn = styled.div<{ backgroundColor: string }>(props => ({
+  boxSizing: 'border-box',
+  padding: 24,
+  width: '50%',
+  height: '100%',
+  backgroundColor: props.backgroundColor,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  textAlign: 'center'
 }));
+
+export const RotateSectionColumn = styled.div<{ transform: string }>`
+  display: flex;
+  align-items: center;
+  @media (max-width: 480px) {
+    transform: ${props => props.transform};
+  }
+`;
 
 export const LifePoints = styled.div`
   margin: 0 32px;

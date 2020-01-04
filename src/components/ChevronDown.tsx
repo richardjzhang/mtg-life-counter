@@ -4,16 +4,27 @@ import { colors } from '../static/themes';
 import { styled } from '../utils/styled';
 
 const Root = styled.div<{ height: number; width: number }>(props => ({
+  flexShrink: 0,
   height: props.height,
-  width: props.width
+  width: props.width,
+  cursor: 'pointer'
 }));
 
 interface Props {
   size: number;
+  onMouseDown: () => void;
+  onTouchStart: () => void;
+  onClick: () => void;
 }
 
-const Chevron = ({ size }: Props) => (
-  <Root height={size} width={size}>
+const Chevron = ({ size, onMouseDown, onTouchStart, onClick }: Props) => (
+  <Root
+    height={size}
+    width={size}
+    onMouseDown={onMouseDown}
+    onTouchStart={onTouchStart}
+    onClick={onClick}
+  >
     <svg
       fill={colors.codGray}
       enableBackground="new 0 0 185.344 185.344"
