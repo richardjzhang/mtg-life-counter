@@ -65,4 +65,8 @@ export const LifePoints = styled.div`
   margin: 0 32px;
   font-size: 96px;
   font-weight: 600;
+  @media (max-width: 480px) {
+    margin: 0 20px;
+    font-size: 60px;
+  }
 `;
