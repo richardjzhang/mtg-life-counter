@@ -1,132 +1,34 @@
 import React, { useState } from 'react';
 
+import {
+  Container,
+  Section,
+  RotateSection,
+  ChevronWrapper,
+  LifePoints
+} from '../styles';
 import { colors } from '../static/themes';
 import { useInterval } from '../utils/hooks';
-import { styled } from '../utils/styled';
+import Settings from '../components/Settings';
 import Chevron from '../components/Chevron';
-import Cross from '../components/Cross';
-import Heart from '../components/Heart';
-import LeftArrow from '../components/LeftArrow';
-import MagicLogo from '../components/MagicLogo';
-import Reset from '../components/Reset';
+import SectionBorder from '../components/SectionBorder';
 
-const CENTER_POSITION_HEIGHT = 10;
 const INCREMENT_INTERVAL_MS = 125;
-const POINTS_OPTIONS = [20, 40, 60];
-
-// Icon sizes
 const CHEVRON_ICON_SIZE = 30;
-const ACTIONS_ICON_SIZE = 36;
-const CROSS_ICON_SIZE = 16;
-const LEFT_ARROW_ICON_SIZE = 24;
 
-const Container = styled.div`
-  position: relative;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  user-select: none;
-`;
+interface Props {
+  showSettings: boolean;
+  setShowSettings: (arg0: boolean) => void;
+  startingLifePoints: number;
+  setStartingLifePoints: (arg0: number) => void;
+}
 
-const Section = styled.div<{ backgroundColor: string }>(props => ({
-  boxSizing: 'border-box',
-  padding: 24,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  textAlign: 'center',
-  width: '100%',
-  height: '50%',
-  color: colors.white,
-  backgroundColor: props.backgroundColor
-}));
-
-const SectionBorder = styled.div`
-  width: 100vw;
-  box-sizing: border-box;
-  border: 1px solid ${colors.codGray};
-`;
-
-const RotateSection = styled.div`
-  display: flex;
-  align-items: center;
-  @media (max-width: 480px) {
-    transform: rotateZ(180deg);
-  }
-`;
-
-const CenterPosition = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  height: ${CENTER_POSITION_HEIGHT}px;
-  width: 100%;
-  margin-top: ${-CENTER_POSITION_HEIGHT / 2}px;
-  margin-left: -50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
-
-const ActionsWrapper = styled.div`
-  position: relative;
-  padding: 12px 24px;
-  min-height: 60px;
-  width: 100vw;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${colors.codGray};
-`;
-
-const ActionsSeparator = styled.div`
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-`;
-
-const ChevronWrapper = styled.div<{ transform?: string }>(props => ({
-  cursor: 'pointer',
-  transform: props.transform != null ? props.transform : 'none'
-}));
-
-const ActionsIconWrapper = styled.div`
-  cursor: pointer;
-`;
-
-const CrossWrapper = styled.div`
-  position: absolute;
-  right: 24px;
-  cursor: pointer;
-`;
-
-const LeftArrowWrapper = styled.div`
-  position: absolute;
-  left: 24px;
-  cursor: pointer;
-`;
-
-const LifePoints = styled.div`
-  margin: 0 32px;
-  font-size: 96px;
-  font-weight: 600;
-`;
-
-const PointsOption = styled.div<{ color?: string }>(props => ({
-  fontSize: 32,
-  fontWeight: 600,
-  color: props.color,
-  cursor: 'pointer'
-}));
-
-const TwoPlayer = () => {
-  const [showSettings, setShowSettings] = useState(false);
-  const [showSettingsLifePoints, setShowSettingsLifePoints] = useState(false);
-  const [startingLifePoints, setStartingLifePoints] = useState(40);
+const TwoPlayer = ({
+  showSettings,
+  setShowSettings,
+  startingLifePoints,
+  setStartingLifePoints
+}: Props) => {
   const [playerOneLife, setPlayerOneLife] = useState(startingLifePoints);
   const [playerTwoLife, setPlayerTwoLife] = useState(startingLifePoints);
 
@@ -160,14 +62,14 @@ const TwoPlayer = () => {
     setIncrementPlayerTwo(false);
   };
 
+  const setPlayerLives = (points: number) => {
+    setPlayerOneLife(points);
+    setPlayerTwoLife(points);
+  };
+
   const resetPoints = () => {
     setPlayerOneLife(startingLifePoints);
     setPlayerTwoLife(startingLifePoints);
-  };
-
-  const resetSettings = () => {
-    setShowSettings(false);
-    setShowSettingsLifePoints(false);
   };
 
   return (
@@ -175,11 +77,6 @@ const TwoPlayer = () => {
       onMouseUp={stopUpdatingPlayerPoints}
       onTouchEnd={stopUpdatingPlayerPoints}
     >
-      {!showSettings && (
-        <CenterPosition onClick={() => setShowSettings(true)}>
-          <MagicLogo />
-        </CenterPosition>
-      )}
       <Section backgroundColor={colors.geraldine}>
         <RotateSection>
           <ChevronWrapper
@@ -201,54 +98,15 @@ const TwoPlayer = () => {
         </RotateSection>
       </Section>
       {showSettings ? (
-        <ActionsWrapper>
-          {showSettingsLifePoints ? (
-            <>
-              <LeftArrowWrapper
-                onClick={() => setShowSettingsLifePoints(false)}
-              >
-                <LeftArrow size={LEFT_ARROW_ICON_SIZE} />
-              </LeftArrowWrapper>
-              {POINTS_OPTIONS.map((points, index) => (
-                <>
-                  <PointsOption
-                    key={points}
-                    color={
-                      startingLifePoints === points
-                        ? colors.white
-                        : colors.santasGray
-                    }
-                    onClick={() => {
-                      setStartingLifePoints(points);
-                      setPlayerOneLife(points);
-                      setPlayerTwoLife(points);
-                    }}
-                  >
-                    {points}
-                  </PointsOption>
-                  {index !== POINTS_OPTIONS.length - 1 && <ActionsSeparator />}
-                </>
-              ))}
-            </>
-          ) : (
-            <>
-              <ActionsIconWrapper
-                onClick={() => setShowSettingsLifePoints(true)}
-              >
-                <Heart size={ACTIONS_ICON_SIZE} />
-              </ActionsIconWrapper>
-              <ActionsSeparator />
-              <ActionsIconWrapper onClick={() => resetPoints()}>
-                <Reset size={ACTIONS_ICON_SIZE} />
-              </ActionsIconWrapper>
-            </>
-          )}
-          <CrossWrapper onClick={() => resetSettings()}>
-            <Cross size={CROSS_ICON_SIZE} />
-          </CrossWrapper>
-        </ActionsWrapper>
+        <Settings
+          resetPoints={resetPoints}
+          setShowSettings={setShowSettings}
+          startingLifePoints={startingLifePoints}
+          setStartingLifePoints={setStartingLifePoints}
+          setPlayerLives={setPlayerLives}
+        />
       ) : (
-        <SectionBorder />
+        <SectionBorder onClick={() => setShowSettings(true)} />
       )}
       <Section backgroundColor={colors.robinsEggBlue}>
         <ChevronWrapper
