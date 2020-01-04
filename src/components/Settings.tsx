@@ -58,20 +58,20 @@ const OptionText = styled.div<{ color?: string }>(props => ({
 }));
 
 interface LifePointsProps {
-  setShowSettingsLifePoints: (arg0: boolean) => void;
+  showDefaultSettings: () => void;
   startingLifePoints: number;
   setStartingLifePoints: (arg0: number) => void;
   setPlayerLives: (arg0: number) => void;
 }
 
 const LifePoints = ({
-  setShowSettingsLifePoints,
+  showDefaultSettings,
   startingLifePoints,
   setStartingLifePoints,
   setPlayerLives
 }: LifePointsProps) => (
   <>
-    <LeftArrowWrapper onClick={() => setShowSettingsLifePoints(false)}>
+    <LeftArrowWrapper onClick={showDefaultSettings}>
       <LeftArrow size={LEFT_ARROW_ICON_SIZE} />
     </LeftArrowWrapper>
     {POINTS_OPTIONS.map((points, index) => (
@@ -94,18 +94,18 @@ const LifePoints = ({
 );
 
 interface PlayersProps {
-  setShowSettingsPlayers: (arg0: boolean) => void;
+  showDefaultSettings: () => void;
   startingPlayers: number;
   setStartingPlayers: (arg0: number) => void;
 }
 
 const Players = ({
-  setShowSettingsPlayers,
+  showDefaultSettings,
   startingPlayers,
   setStartingPlayers
 }: PlayersProps) => (
   <>
-    <LeftArrowWrapper onClick={() => setShowSettingsPlayers(false)}>
+    <LeftArrowWrapper onClick={showDefaultSettings}>
       <LeftArrow size={LEFT_ARROW_ICON_SIZE} />
     </LeftArrowWrapper>
     {PLAYERS_OPTIONS.map((p, index) => (
@@ -171,11 +171,16 @@ const Settings = ({
 }: SettingsProps) => {
   const [showSettingsLifePoints, setShowSettingsLifePoints] = useState(false);
   const [showSettingsPlayers, setShowSettingsPlayers] = useState(false);
+
+  const showDefaultSettings = () => {
+    setShowSettingsLifePoints(false);
+    setShowSettingsPlayers(false);
+  };
   return (
     <Root>
       {showSettingsLifePoints && (
         <LifePoints
-          setShowSettingsLifePoints={setShowSettingsLifePoints}
+          showDefaultSettings={showDefaultSettings}
           startingLifePoints={startingLifePoints}
           setStartingLifePoints={setStartingLifePoints}
           setPlayerLives={setPlayerLives}
@@ -183,9 +188,9 @@ const Settings = ({
       )}
       {showSettingsPlayers && (
         <Players
+          showDefaultSettings={showDefaultSettings}
           startingPlayers={startingPlayers}
           setStartingPlayers={setStartingPlayers}
-          setShowSettingsPlayers={setShowSettingsPlayers}
         />
       )}
       {!showSettingsPlayers && !showSettingsLifePoints && (
