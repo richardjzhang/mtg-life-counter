@@ -47,6 +47,12 @@ export const SectionColumn = styled.div<{ backgroundColor: string }>(props => ({
   textAlign: 'center'
 }));
 
+export const SectionColumnBorder = styled.div`
+  height: 100%;
+  box-sizing: border-box;
+  border: 1px solid ${colors.codGray};
+`;
+
 export const RotateSectionColumn = styled.div<{ transform: string }>`
   display: flex;
   align-items: center;

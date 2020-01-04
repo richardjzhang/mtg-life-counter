@@ -4,6 +4,7 @@ import {
   Container,
   Section,
   SectionColumn,
+  SectionColumnBorder,
   RotateSectionColumn,
   LifePoints
 } from '../styles';
@@ -130,6 +131,7 @@ const ThreePlayer = ({
             />
           </RotateSectionColumn>
         </SectionColumn>
+        <SectionColumnBorder />
         <SectionColumn backgroundColor={colors.bilobaFlower}>
           <RotateSectionColumn transform="rotateZ(-90deg)">
             <ChevronDown
@@ -179,6 +181,7 @@ const ThreePlayer = ({
             />
           </RotateSectionColumn>
         </SectionColumn>
+        <SectionColumnBorder />
         <SectionColumn backgroundColor={colors.geraldine}>
           <RotateSectionColumn transform="rotateZ(-90deg)">
             <ChevronDown

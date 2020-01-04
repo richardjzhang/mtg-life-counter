@@ -21,11 +21,21 @@ const Root = styled.div`
   cursor: pointer;
 `;
 
+const Background = styled.div`
+  padding: 4px;
+  display: flex;
+  justify-content: center;
+  border-radius: 100px;
+  height: 45px;
+  width: 45px;
+  background-color: ${colors.codGray};
+`;
+
 const Logo = styled.img`
   cursor: pointer;
   user-select: none;
-  height: 50px;
-  width: 40px;
+  height: 45px;
+  width: 36px;
 `;
 
 const Border = styled.div`
@@ -41,7 +51,9 @@ interface Props {
 const SectionBorder = ({ onClick }: Props) => (
   <>
     <Root onClick={onClick}>
-      <Logo src={magic_logo} alt="Magic the Gathering" />
+      <Background>
+        <Logo src={magic_logo} alt="Magic the Gathering" />
+      </Background>
     </Root>
     <Border />
   </>
