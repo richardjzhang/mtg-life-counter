@@ -22,8 +22,8 @@ const Root = styled.div`
 `;
 
 const Background = styled.div`
-  padding: 4px;
   display: flex;
+  align-items: center;
   justify-content: center;
   border-radius: 100px;
   height: 45px;
@@ -34,8 +34,8 @@ const Background = styled.div`
 const Logo = styled.img`
   cursor: pointer;
   user-select: none;
-  height: 45px;
-  width: 36px;
+  height: 35px;
+  width: 28px;
 `;
 
 const Border = styled.div`
