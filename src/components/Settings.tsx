@@ -55,6 +55,62 @@ const PointsOption = styled.div<{ color?: string }>(props => ({
   cursor: 'pointer'
 }));
 
+interface LifePointsProps {
+  setShowSettingsLifePoints: (arg0: boolean) => void;
+  startingLifePoints: number;
+  setStartingLifePoints: (arg0: number) => void;
+  setPlayerLives: (arg0: number) => void;
+}
+
+const LifePoints = ({
+  setShowSettingsLifePoints,
+  startingLifePoints,
+  setStartingLifePoints,
+  setPlayerLives
+}: LifePointsProps) => (
+  <>
+    <LeftArrowWrapper onClick={() => setShowSettingsLifePoints(false)}>
+      <LeftArrow size={LEFT_ARROW_ICON_SIZE} />
+    </LeftArrowWrapper>
+    {POINTS_OPTIONS.map((points, index) => (
+      <>
+        <PointsOption
+          color={
+            startingLifePoints === points ? colors.white : colors.santasGray
+          }
+          onClick={() => {
+            setStartingLifePoints(points);
+            setPlayerLives(points);
+          }}
+        >
+          {points}
+        </PointsOption>
+        {index !== POINTS_OPTIONS.length - 1 && <Separator />}
+      </>
+    ))}
+  </>
+);
+
+interface DefaultSettingsProps {
+  resetPoints: () => void;
+  setShowSettingsLifePoints: (arg0: boolean) => void;
+}
+
+const DefaultSettings = ({
+  resetPoints,
+  setShowSettingsLifePoints
+}: DefaultSettingsProps) => (
+  <>
+    <SettingsIconWrapper onClick={() => setShowSettingsLifePoints(true)}>
+      <Heart size={ACTIONS_ICON_SIZE} />
+    </SettingsIconWrapper>
+    <Separator />
+    <SettingsIconWrapper onClick={resetPoints}>
+      <Reset size={ACTIONS_ICON_SIZE} />
+    </SettingsIconWrapper>
+  </>
+);
+
 interface SettingsProps {
   resetPoints: () => void;
   setShowSettings: (arg0: boolean) => void;
@@ -74,39 +130,17 @@ const Settings = ({
   return (
     <Root>
       {showSettingsLifePoints ? (
-        <>
-          <LeftArrowWrapper onClick={() => setShowSettingsLifePoints(false)}>
-            <LeftArrow size={LEFT_ARROW_ICON_SIZE} />
-          </LeftArrowWrapper>
-          {POINTS_OPTIONS.map((points, index) => (
-            <>
-              <PointsOption
-                color={
-                  startingLifePoints === points
-                    ? colors.white
-                    : colors.santasGray
-                }
-                onClick={() => {
-                  setStartingLifePoints(points);
-                  setPlayerLives(points);
-                }}
-              >
-                {points}
-              </PointsOption>
-              {index !== POINTS_OPTIONS.length - 1 && <Separator />}
-            </>
-          ))}
-        </>
+        <LifePoints
+          setShowSettingsLifePoints={setShowSettingsLifePoints}
+          startingLifePoints={startingLifePoints}
+          setStartingLifePoints={setStartingLifePoints}
+          setPlayerLives={setPlayerLives}
+        />
       ) : (
-        <>
-          <SettingsIconWrapper onClick={() => setShowSettingsLifePoints(true)}>
-            <Heart size={ACTIONS_ICON_SIZE} />
-          </SettingsIconWrapper>
-          <Separator />
-          <SettingsIconWrapper onClick={resetPoints}>
-            <Reset size={ACTIONS_ICON_SIZE} />
-          </SettingsIconWrapper>
-        </>
+        <DefaultSettings
+          resetPoints={resetPoints}
+          setShowSettingsLifePoints={setShowSettingsLifePoints}
+        />
       )}
       <CrossWrapper
         onClick={() => {
