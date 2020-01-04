@@ -8,7 +8,7 @@ import Heart from '../components/Heart';
 import LeftArrow from '../components/LeftArrow';
 import Reset from '../components/Reset';
 
-const POINTS_OPTIONS = [20, 40, 60];
+const POINTS_OPTIONS = [20, 30, 40];
 const PLAYERS_OPTIONS = [2, 3, 4];
 
 // Icon sizes

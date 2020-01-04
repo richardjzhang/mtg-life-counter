@@ -7,7 +7,8 @@ import {
   SectionColumn,
   SectionColumnBorder,
   RotateSectionColumn,
-  LifePoints
+  LifePoints,
+  LifePointsColumn
 } from '../styles';
 import { colors } from '../static/themes';
 import { useInterval } from '../utils/hooks';
@@ -138,7 +139,9 @@ const ThreePlayer = ({
               onTouchStart={() => setDecrementPlayerTwo(true)}
               onClick={() => setPlayerTwoLife(playerTwoLife - 1)}
             />
-            <LifePoints>{playerTwoLife}</LifePoints>
+            <LifePoints>
+              <LifePointsColumn>{playerTwoLife}</LifePointsColumn>
+            </LifePoints>
             <ChevronUp
               size={CHEVRON_ICON_SIZE}
               onMouseDown={() => setIncrementPlayerTwo(true)}
@@ -156,7 +159,9 @@ const ThreePlayer = ({
               onTouchStart={() => setDecrementPlayerThree(true)}
               onClick={() => setPlayerThreeLife(playerThreeLife - 1)}
             />
-            <LifePoints>{playerThreeLife}</LifePoints>
+            <LifePoints>
+              <LifePointsColumn>{playerThreeLife}</LifePointsColumn>
+            </LifePoints>
             <ChevronUp
               size={CHEVRON_ICON_SIZE}
               onMouseDown={() => setIncrementPlayerThree(true)}

@@ -65,8 +65,10 @@ export const LifePoints = styled.div`
   margin: 0 32px;
   font-size: 96px;
   font-weight: 600;
+`;
+
+export const LifePointsColumn = styled.div`
   @media (max-width: 480px) {
-    margin: 0 20px;
-    font-size: 60px;
+    font-size: 65px;
   }
 `;
