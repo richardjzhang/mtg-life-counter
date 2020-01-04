@@ -75,7 +75,7 @@ const LifePoints = ({
       <LeftArrow size={LEFT_ARROW_ICON_SIZE} />
     </LeftArrowWrapper>
     {POINTS_OPTIONS.map((points, index) => (
-      <>
+      <React.Fragment key={points}>
         <OptionText
           color={
             startingLifePoints === points ? colors.white : colors.santasGray
@@ -88,7 +88,7 @@ const LifePoints = ({
           {points}
         </OptionText>
         {index !== POINTS_OPTIONS.length - 1 && <Separator />}
-      </>
+      </React.Fragment>
     ))}
   </>
 );
@@ -109,7 +109,7 @@ const Players = ({
       <LeftArrow size={LEFT_ARROW_ICON_SIZE} />
     </LeftArrowWrapper>
     {PLAYERS_OPTIONS.map((p, index) => (
-      <>
+      <React.Fragment key={p}>
         <OptionText
           color={startingPlayers === p ? colors.white : colors.santasGray}
           onClick={() => {
@@ -119,7 +119,7 @@ const Players = ({
           {p}
         </OptionText>
         {index !== PLAYERS_OPTIONS.length - 1 && <Separator />}
-      </>
+      </React.Fragment>
     ))}
   </>
 );
