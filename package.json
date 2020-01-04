@@ -5,18 +5,18 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-    "@types/react": "^16.9.17",
-    "@types/react-dom": "^16.9.4",
-    "@types/styled-components": "^4.4.1",
-    "@types/webfontloader": "^1.6.29",
     "react": "16.12.0",
     "react-dom": "16.12.0",
     "react-scripts": "3.0.1",
     "styled-components": "4.4.1",
-    "webfontloader": "^1.6.28",
-    "typescript": "3.7.4"
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
+    "typescript": "3.7.4",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "@types/styled-components": "^4.4.1",
+    "@types/webfontloader": "^1.6.29",
     "husky": "^2.3.0",
     "lint-staged": "^8.1.7",
     "prettier": "^1.17.1"
@@ -38,10 +38,5 @@
       "git add"
     ]
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"]
 }
