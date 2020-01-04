@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import TwoPlayer from './views/TwoPlayer';
 import ThreePlayer from './views/ThreePlayer';
+import FourPlayer from './views/FourPlayer';
 
 const INITIAL_LIFE_POINTS = 40;
 const INITIAL_PLAYERS = 2;
@@ -27,6 +28,16 @@ const App = () => {
       )}
       {startingPlayers === 3 && (
         <ThreePlayer
+          showSettings={showSettings}
+          setShowSettings={setShowSettings}
+          startingLifePoints={startingLifePoints}
+          setStartingLifePoints={setStartingLifePoints}
+          startingPlayers={startingPlayers}
+          setStartingPlayers={setStartingPlayers}
+        />
+      )}
+      {startingPlayers === 4 && (
+        <FourPlayer
           showSettings={showSettings}
           setShowSettings={setShowSettings}
           startingLifePoints={startingLifePoints}

@@ -9,7 +9,7 @@ import LeftArrow from '../components/LeftArrow';
 import Reset from '../components/Reset';
 
 const POINTS_OPTIONS = [20, 40, 60];
-const PLAYERS_OPTIONS = [2, 3];
+const PLAYERS_OPTIONS = [2, 3, 4];
 
 // Icon sizes
 const ACTIONS_ICON_SIZE = 36;
@@ -19,7 +19,7 @@ const LEFT_ARROW_ICON_SIZE = 24;
 const Root = styled.div`
   position: relative;
   padding: 12px 24px;
-  min-height: 60px;
+  min-height: 65px;
   width: 100vw;
   box-sizing: border-box;
   display: flex;
