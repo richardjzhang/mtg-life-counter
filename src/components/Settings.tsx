@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 
 import { colors } from '../static/themes';
 import { styled } from '../utils/styled';
+import AddPlayers from '../components/AddPlayers';
 import Cross from '../components/Cross';
 import Heart from '../components/Heart';
 import LeftArrow from '../components/LeftArrow';
 import Reset from '../components/Reset';
 
 const POINTS_OPTIONS = [20, 40, 60];
+const PLAYERS_OPTIONS = [2, 3];
 
 // Icon sizes
 const ACTIONS_ICON_SIZE = 36;
@@ -48,7 +50,7 @@ const LeftArrowWrapper = styled.div`
   cursor: pointer;
 `;
 
-const PointsOption = styled.div<{ color?: string }>(props => ({
+const OptionText = styled.div<{ color?: string }>(props => ({
   fontSize: 32,
   fontWeight: 600,
   color: props.color,
@@ -74,7 +76,7 @@ const LifePoints = ({
     </LeftArrowWrapper>
     {POINTS_OPTIONS.map((points, index) => (
       <>
-        <PointsOption
+        <OptionText
           color={
             startingLifePoints === points ? colors.white : colors.santasGray
           }
@@ -84,8 +86,39 @@ const LifePoints = ({
           }}
         >
           {points}
-        </PointsOption>
+        </OptionText>
         {index !== POINTS_OPTIONS.length - 1 && <Separator />}
+      </>
+    ))}
+  </>
+);
+
+interface PlayersProps {
+  setShowSettingsPlayers: (arg0: boolean) => void;
+  startingPlayers: number;
+  setStartingPlayers: (arg0: number) => void;
+}
+
+const Players = ({
+  setShowSettingsPlayers,
+  startingPlayers,
+  setStartingPlayers
+}: PlayersProps) => (
+  <>
+    <LeftArrowWrapper onClick={() => setShowSettingsPlayers(false)}>
+      <LeftArrow size={LEFT_ARROW_ICON_SIZE} />
+    </LeftArrowWrapper>
+    {PLAYERS_OPTIONS.map((p, index) => (
+      <>
+        <OptionText
+          color={startingPlayers === p ? colors.white : colors.santasGray}
+          onClick={() => {
+            setStartingPlayers(p);
+          }}
+        >
+          {p}
+        </OptionText>
+        {index !== PLAYERS_OPTIONS.length - 1 && <Separator />}
       </>
     ))}
   </>
@@ -94,11 +127,13 @@ const LifePoints = ({
 interface DefaultSettingsProps {
   resetPoints: () => void;
   setShowSettingsLifePoints: (arg0: boolean) => void;
+  setShowSettingsPlayers: (arg0: boolean) => void;
 }
 
 const DefaultSettings = ({
   resetPoints,
-  setShowSettingsLifePoints
+  setShowSettingsLifePoints,
+  setShowSettingsPlayers
 }: DefaultSettingsProps) => (
   <>
     <SettingsIconWrapper onClick={() => setShowSettingsLifePoints(true)}>
@@ -108,6 +143,10 @@ const DefaultSettings = ({
     <SettingsIconWrapper onClick={resetPoints}>
       <Reset size={ACTIONS_ICON_SIZE} />
     </SettingsIconWrapper>
+    <Separator />
+    <SettingsIconWrapper onClick={() => setShowSettingsPlayers(true)}>
+      <AddPlayers size={ACTIONS_ICON_SIZE} />
+    </SettingsIconWrapper>
   </>
 );
 
@@ -116,6 +155,8 @@ interface SettingsProps {
   setShowSettings: (arg0: boolean) => void;
   startingLifePoints: number;
   setStartingLifePoints: (arg0: number) => void;
+  startingPlayers: number;
+  setStartingPlayers: (arg0: number) => void;
   setPlayerLives: (arg0: number) => void;
 }
 
@@ -124,22 +165,34 @@ const Settings = ({
   setShowSettings,
   startingLifePoints,
   setStartingLifePoints,
+  startingPlayers,
+  setStartingPlayers,
   setPlayerLives
 }: SettingsProps) => {
   const [showSettingsLifePoints, setShowSettingsLifePoints] = useState(false);
+  const [showSettingsPlayers, setShowSettingsPlayers] = useState(false);
   return (
     <Root>
-      {showSettingsLifePoints ? (
+      {showSettingsLifePoints && (
         <LifePoints
           setShowSettingsLifePoints={setShowSettingsLifePoints}
           startingLifePoints={startingLifePoints}
           setStartingLifePoints={setStartingLifePoints}
           setPlayerLives={setPlayerLives}
         />
-      ) : (
+      )}
+      {showSettingsPlayers && (
+        <Players
+          startingPlayers={startingPlayers}
+          setStartingPlayers={setStartingPlayers}
+          setShowSettingsPlayers={setShowSettingsPlayers}
+        />
+      )}
+      {!showSettingsPlayers && !showSettingsLifePoints && (
         <DefaultSettings
           resetPoints={resetPoints}
           setShowSettingsLifePoints={setShowSettingsLifePoints}
+          setShowSettingsPlayers={setShowSettingsPlayers}
         />
       )}
       <CrossWrapper

@@ -23,13 +23,17 @@ interface Props {
   setShowSettings: (arg0: boolean) => void;
   startingLifePoints: number;
   setStartingLifePoints: (arg0: number) => void;
+  startingPlayers: number;
+  setStartingPlayers: (arg0: number) => void;
 }
 
 const ThreePlayer = ({
   showSettings,
   setShowSettings,
   startingLifePoints,
-  setStartingLifePoints
+  setStartingLifePoints,
+  startingPlayers,
+  setStartingPlayers
 }: Props) => {
   const [playerOneLife, setPlayerOneLife] = useState(startingLifePoints);
   const [playerTwoLife, setPlayerTwoLife] = useState(startingLifePoints);
@@ -117,6 +121,8 @@ const ThreePlayer = ({
           setShowSettings={setShowSettings}
           startingLifePoints={startingLifePoints}
           setStartingLifePoints={setStartingLifePoints}
+          startingPlayers={startingPlayers}
+          setStartingPlayers={setStartingPlayers}
           setPlayerLives={setPlayerLives}
         />
       ) : (
