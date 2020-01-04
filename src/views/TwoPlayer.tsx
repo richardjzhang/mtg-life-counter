@@ -12,7 +12,7 @@ import Reset from '../components/Reset';
 
 const CENTER_POSITION_HEIGHT = 10;
 const INCREMENT_INTERVAL_MS = 125;
-const POINTS_OPTIONS = [20, 40, 80];
+const POINTS_OPTIONS = [20, 40, 60];
 
 // Icon sizes
 const CHEVRON_ICON_SIZE = 30;
@@ -27,6 +27,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  user-select: none;
 `;
 
 const Section = styled.div<{ backgroundColor: string }>(props => ({
@@ -113,10 +114,9 @@ const LifePoints = styled.div`
   margin: 0 32px;
   font-size: 96px;
   font-weight: 600;
-  user-select: none;
 `;
 
-const PointsOption = styled.div<{ color: string }>(props => ({
+const PointsOption = styled.div<{ color?: string }>(props => ({
   fontSize: 32,
   fontWeight: 600,
   color: props.color,
@@ -126,9 +126,9 @@ const PointsOption = styled.div<{ color: string }>(props => ({
 const TwoPlayer = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [showSettingsLifePoints, setShowSettingsLifePoints] = useState(false);
-  const [initialLifePoints, setInitialLifePoints] = useState(40);
-  const [playerOneLife, setPlayerOneLife] = useState(initialLifePoints);
-  const [playerTwoLife, setPlayerTwoLife] = useState(initialLifePoints);
+  const [startingLifePoints, setStartingLifePoints] = useState(40);
+  const [playerOneLife, setPlayerOneLife] = useState(startingLifePoints);
+  const [playerTwoLife, setPlayerTwoLife] = useState(startingLifePoints);
 
   // Fast increment
   const [incrementPlayerOne, setIncrementPlayerOne] = useState(false);
@@ -161,8 +161,13 @@ const TwoPlayer = () => {
   };
 
   const resetPoints = () => {
-    setPlayerOneLife(initialLifePoints);
-    setPlayerTwoLife(initialLifePoints);
+    setPlayerOneLife(startingLifePoints);
+    setPlayerTwoLife(startingLifePoints);
+  };
+
+  const resetSettings = () => {
+    setShowSettings(false);
+    setShowSettingsLifePoints(false);
   };
 
   return (
@@ -204,20 +209,24 @@ const TwoPlayer = () => {
               >
                 <LeftArrow size={LEFT_ARROW_ICON_SIZE} />
               </LeftArrowWrapper>
-              {POINTS_OPTIONS.map(points => (
+              {POINTS_OPTIONS.map((points, index) => (
                 <>
                   <PointsOption
                     key={points}
                     color={
-                      initialLifePoints === points
+                      startingLifePoints === points
                         ? colors.white
                         : colors.santasGray
                     }
-                    onClick={() => setInitialLifePoints(20)}
+                    onClick={() => {
+                      setStartingLifePoints(points);
+                      setPlayerOneLife(points);
+                      setPlayerTwoLife(points);
+                    }}
                   >
                     {points}
                   </PointsOption>
-                  <ActionsSeparator />
+                  {index !== POINTS_OPTIONS.length - 1 && <ActionsSeparator />}
                 </>
               ))}
             </>
@@ -234,7 +243,7 @@ const TwoPlayer = () => {
               </ActionsIconWrapper>
             </>
           )}
-          <CrossWrapper onClick={() => setShowSettings(false)}>
+          <CrossWrapper onClick={() => resetSettings()}>
             <Cross size={CROSS_ICON_SIZE} />
           </CrossWrapper>
         </ActionsWrapper>
