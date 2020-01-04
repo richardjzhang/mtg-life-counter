@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import { colors } from "../static/themes";
-import { styled } from "../utils/styled";
+import { colors } from '../static/themes';
+import { styled } from '../utils/styled';
 
 const Root = styled.div<{ height: number; width: number }>(props => ({
   height: props.height,
