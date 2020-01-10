@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import {
   Container,
@@ -28,7 +28,7 @@ interface Props {
   setStartingPlayers: (arg0: number) => void;
 }
 
-const ThreePlayer = ({
+const FourPlayer = ({
   showSettings,
   setShowSettings,
   startingLifePoints,
@@ -42,85 +42,61 @@ const ThreePlayer = ({
   const [playerFourLife, setPlayerFourLife] = useState(startingLifePoints);
 
   // Fast increment
-  const [incrementPlayerOne, setIncrementPlayerOne] = useState(false);
-  const [decrementPlayerOne, setDecrementPlayerOne] = useState(false);
-  const [incrementPlayerTwo, setIncrementPlayerTwo] = useState(false);
-  const [decrementPlayerTwo, setDecrementPlayerTwo] = useState(false);
-  const [incrementPlayerThree, setIncrementPlayerThree] = useState(false);
-  const [decrementPlayerThree, setDecrementPlayerThree] = useState(false);
-  const [incrementPlayerFour, setIncrementPlayerFour] = useState(false);
-  const [decrementPlayerFour, setDecrementPlayerFour] = useState(false);
+  const [incrementPlayerOne, setIncrementPlayerOne] = useState(0);
+  const [incrementPlayerTwo, setIncrementPlayerTwo] = useState(0);
+  const [incrementPlayerThree, setIncrementPlayerThree] = useState(0);
+  const [incrementPlayerFour, setIncrementPlayerFour] = useState(0);
 
   useInterval(
-    () => setPlayerOneLife(playerOneLife + 1),
-    incrementPlayerOne ? INCREMENT_INTERVAL_MS : null
+    () => setPlayerOneLife(playerOneLife + incrementPlayerOne),
+    incrementPlayerOne !== 0 ? INCREMENT_INTERVAL_MS : null
   );
   useInterval(
-    () => setPlayerOneLife(playerOneLife - 1),
-    decrementPlayerOne ? INCREMENT_INTERVAL_MS : null
+    () => setPlayerTwoLife(playerTwoLife + incrementPlayerTwo),
+    incrementPlayerTwo !== 0 ? INCREMENT_INTERVAL_MS : null
   );
   useInterval(
-    () => setPlayerTwoLife(playerTwoLife + 1),
-    incrementPlayerTwo ? INCREMENT_INTERVAL_MS : null
+    () => setPlayerThreeLife(playerThreeLife + incrementPlayerThree),
+    incrementPlayerThree !== 0 ? INCREMENT_INTERVAL_MS : null
   );
   useInterval(
-    () => setPlayerTwoLife(playerTwoLife - 1),
-    decrementPlayerTwo ? INCREMENT_INTERVAL_MS : null
-  );
-  useInterval(
-    () => setPlayerThreeLife(playerThreeLife + 1),
-    incrementPlayerThree ? INCREMENT_INTERVAL_MS : null
-  );
-  useInterval(
-    () => setPlayerThreeLife(playerThreeLife - 1),
-    decrementPlayerThree ? INCREMENT_INTERVAL_MS : null
-  );
-  useInterval(
-    () => setPlayerFourLife(playerFourLife + 1),
-    incrementPlayerFour ? INCREMENT_INTERVAL_MS : null
-  );
-  useInterval(
-    () => setPlayerFourLife(playerFourLife - 1),
-    decrementPlayerFour ? INCREMENT_INTERVAL_MS : null
+    () => setPlayerFourLife(playerFourLife + incrementPlayerFour),
+    incrementPlayerFour !== 0 ? INCREMENT_INTERVAL_MS : null
   );
 
-  const stopUpdatingPlayerPoints = () => {
-    setIncrementPlayerOne(false);
-    setDecrementPlayerOne(false);
-    setDecrementPlayerTwo(false);
-    setIncrementPlayerTwo(false);
-    setDecrementPlayerThree(false);
-    setIncrementPlayerThree(false);
-    setDecrementPlayerFour(false);
-    setIncrementPlayerFour(false);
-  };
+  const stopIncrementingPlayerPoints = useCallback(() => {
+    setIncrementPlayerOne(0);
+    setIncrementPlayerTwo(0);
+    setIncrementPlayerThree(0);
+    setIncrementPlayerFour(0);
+  }, [
+    setIncrementPlayerOne,
+    setIncrementPlayerTwo,
+    setIncrementPlayerThree,
+    setIncrementPlayerFour
+  ]);
 
-  const setPlayerLives = (points: number) => {
-    setPlayerOneLife(points);
-    setPlayerTwoLife(points);
-    setPlayerThreeLife(points);
-    setPlayerFourLife(points);
-  };
-
-  const resetPoints = () => {
-    setPlayerOneLife(startingLifePoints);
-    setPlayerTwoLife(startingLifePoints);
-    setPlayerThreeLife(startingLifePoints);
-    setPlayerFourLife(startingLifePoints);
-  };
+  const setPlayerLives = useCallback(
+    (points: number) => {
+      setPlayerOneLife(points);
+      setPlayerTwoLife(points);
+      setPlayerThreeLife(points);
+      setPlayerFourLife(points);
+    },
+    [setPlayerOneLife, setPlayerTwoLife, setPlayerThreeLife, setPlayerFourLife]
+  );
 
   return (
     <Container
-      onMouseUp={stopUpdatingPlayerPoints}
-      onTouchEnd={stopUpdatingPlayerPoints}
+      onMouseUp={stopIncrementingPlayerPoints}
+      onTouchEnd={stopIncrementingPlayerPoints}
     >
       <Section padding={0}>
         <SectionColumn backgroundColor={colors.robinsEggBlue}>
           <RotateSectionColumn transform="rotateZ(90deg)">
             <ChevronDown
               size={CHEVRON_ICON_SIZE}
-              onMouseDown={() => setDecrementPlayerOne(true)}
-              onTouchStart={() => setDecrementPlayerOne(true)}
+              onHold={() => setIncrementPlayerOne(-1)}
               onClick={() => setPlayerOneLife(playerOneLife - 1)}
             />
             <LifePoints>
@@ -128,8 +104,7 @@ const ThreePlayer = ({
             </LifePoints>
             <ChevronUp
               size={CHEVRON_ICON_SIZE}
-              onMouseDown={() => setIncrementPlayerOne(true)}
-              onTouchStart={() => setIncrementPlayerOne(true)}
+              onHold={() => setIncrementPlayerOne(1)}
               onClick={() => setPlayerOneLife(playerOneLife + 1)}
             />
           </RotateSectionColumn>
@@ -139,8 +114,7 @@ const ThreePlayer = ({
           <RotateSectionColumn transform="rotateZ(-90deg)">
             <ChevronDown
               size={CHEVRON_ICON_SIZE}
-              onMouseDown={() => setDecrementPlayerTwo(true)}
-              onTouchStart={() => setDecrementPlayerTwo(true)}
+              onHold={() => setIncrementPlayerTwo(-1)}
               onClick={() => setPlayerTwoLife(playerTwoLife - 1)}
             />
             <LifePoints>
@@ -148,8 +122,7 @@ const ThreePlayer = ({
             </LifePoints>
             <ChevronUp
               size={CHEVRON_ICON_SIZE}
-              onMouseDown={() => setIncrementPlayerTwo(true)}
-              onTouchStart={() => setIncrementPlayerTwo(true)}
+              onHold={() => setIncrementPlayerTwo(1)}
               onClick={() => setPlayerTwoLife(playerTwoLife + 1)}
             />
           </RotateSectionColumn>
@@ -157,7 +130,7 @@ const ThreePlayer = ({
       </Section>
       {showSettings ? (
         <Settings
-          resetPoints={resetPoints}
+          resetPoints={() => setPlayerLives(startingLifePoints)}
           setShowSettings={setShowSettings}
           startingLifePoints={startingLifePoints}
           setStartingLifePoints={setStartingLifePoints}
@@ -169,12 +142,11 @@ const ThreePlayer = ({
         <SectionBorder onClick={() => setShowSettings(true)} />
       )}
       <Section padding={0}>
-        <SectionColumn backgroundColor="#72CFA7">
+        <SectionColumn backgroundColor={colors.downy}>
           <RotateSectionColumn transform="rotateZ(90deg)">
             <ChevronDown
               size={CHEVRON_ICON_SIZE}
-              onMouseDown={() => setDecrementPlayerThree(true)}
-              onTouchStart={() => setDecrementPlayerThree(true)}
+              onHold={() => setIncrementPlayerThree(-1)}
               onClick={() => setPlayerThreeLife(playerThreeLife - 1)}
             />
             <LifePoints>
@@ -182,8 +154,7 @@ const ThreePlayer = ({
             </LifePoints>
             <ChevronUp
               size={CHEVRON_ICON_SIZE}
-              onMouseDown={() => setIncrementPlayerThree(true)}
-              onTouchStart={() => setIncrementPlayerThree(true)}
+              onHold={() => setIncrementPlayerThree(1)}
               onClick={() => setPlayerThreeLife(playerThreeLife + 1)}
             />
           </RotateSectionColumn>
@@ -193,8 +164,7 @@ const ThreePlayer = ({
           <RotateSectionColumn transform="rotateZ(-90deg)">
             <ChevronDown
               size={CHEVRON_ICON_SIZE}
-              onMouseDown={() => setDecrementPlayerFour(true)}
-              onTouchStart={() => setDecrementPlayerFour(true)}
+              onHold={() => setIncrementPlayerFour(-1)}
               onClick={() => setPlayerFourLife(playerFourLife - 1)}
             />
             <LifePoints>
@@ -202,8 +172,7 @@ const ThreePlayer = ({
             </LifePoints>
             <ChevronUp
               size={CHEVRON_ICON_SIZE}
-              onMouseDown={() => setIncrementPlayerFour(true)}
-              onTouchStart={() => setIncrementPlayerFour(true)}
+              onHold={() => setIncrementPlayerFour(1)}
               onClick={() => setPlayerFourLife(playerFourLife + 1)}
             />
           </RotateSectionColumn>
@@ -213,4 +182,4 @@ const ThreePlayer = ({
   );
 };
 
-export default ThreePlayer;
+export default FourPlayer;
