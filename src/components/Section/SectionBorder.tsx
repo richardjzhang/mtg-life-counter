@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { colors } from '../static/themes';
+import { colors } from '../../static/themes';
 
-const magic_logo = require('../static/assets/magic-logo.png');
+const magic_logo = require('../../static/assets/magic-logo.png');
 
 const LOGO_HEIGHT = 10;
 

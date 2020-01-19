@@ -1,24 +1,22 @@
 import React, { useCallback, useState } from 'react';
 
-import {
-  Container,
-  Section,
-  RotateSection,
-  SectionColumn,
-  SectionColumnBorder,
-  RotateSectionColumn,
-  LifePoints,
-  LifePointsColumn
-} from '../styles';
 import { colors } from '../static/themes';
 import { useInterval } from '../utils/hooks';
 import Settings from '../components/Settings';
 import ChevronDown from '../components/ChevronDown';
 import ChevronUp from '../components/ChevronUp';
-import SectionBorder from '../components/SectionBorder';
+import { LifePoints, LifePointsColumn } from '../components/LifePoints';
+import {
+  Container,
+  Section,
+  SectionBorder,
+  SectionColumn,
+  SectionColumnBorder,
+  RotateSection,
+  RotateSectionColumn
+} from '../components/Section';
 
 const INCREMENT_INTERVAL_MS = 125;
-const CHEVRON_ICON_SIZE = 30;
 
 interface Props {
   showSettings: boolean;
@@ -82,13 +80,11 @@ const ThreePlayer = ({
       <Section backgroundColor={colors.geraldine}>
         <RotateSection>
           <ChevronDown
-            size={CHEVRON_ICON_SIZE}
             onHold={() => setIncrementPlayerOne(-1)}
             onClick={() => setPlayerOneLife(playerOneLife - 1)}
           />
           <LifePoints>{playerOneLife}</LifePoints>
           <ChevronUp
-            size={CHEVRON_ICON_SIZE}
             onHold={() => setIncrementPlayerOne(1)}
             onClick={() => setPlayerOneLife(playerOneLife + 1)}
           />
@@ -111,7 +107,6 @@ const ThreePlayer = ({
         <SectionColumn backgroundColor={colors.robinsEggBlue}>
           <RotateSectionColumn transform="rotateZ(90deg)">
             <ChevronDown
-              size={CHEVRON_ICON_SIZE}
               onHold={() => setIncrementPlayerTwo(-1)}
               onClick={() => setPlayerTwoLife(playerTwoLife - 1)}
             />
@@ -119,7 +114,6 @@ const ThreePlayer = ({
               <LifePointsColumn>{playerTwoLife}</LifePointsColumn>
             </LifePoints>
             <ChevronUp
-              size={CHEVRON_ICON_SIZE}
               onHold={() => setIncrementPlayerTwo(1)}
               onClick={() => setPlayerTwoLife(playerTwoLife + 1)}
             />
@@ -129,7 +123,6 @@ const ThreePlayer = ({
         <SectionColumn backgroundColor={colors.downy}>
           <RotateSectionColumn transform="rotateZ(-90deg)">
             <ChevronDown
-              size={CHEVRON_ICON_SIZE}
               onHold={() => setIncrementPlayerThree(-1)}
               onClick={() => setPlayerThreeLife(playerThreeLife - 1)}
             />
@@ -137,7 +130,6 @@ const ThreePlayer = ({
               <LifePointsColumn>{playerThreeLife}</LifePointsColumn>
             </LifePoints>
             <ChevronUp
-              size={CHEVRON_ICON_SIZE}
               onHold={() => setIncrementPlayerThree(1)}
               onClick={() => setPlayerThreeLife(playerThreeLife + 1)}
             />

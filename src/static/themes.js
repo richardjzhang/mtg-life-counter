@@ -11,3 +11,10 @@ export const colors = {
   robinsEggBlue: '#09b9b9',
   santasGray: '#9a9dab'
 };
+
+export const breakPoints = Object.freeze({
+  small: 480,
+  medium: 768,
+  large: 1024,
+  extraLarge: 1280
+});
