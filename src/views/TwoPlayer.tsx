@@ -40,11 +40,15 @@ const TwoPlayer = ({
   const [incrementPlayerTwo, setIncrementPlayerTwo] = useState(0);
 
   useInterval(
-    () => setPlayerOneLife(playerOneLife + incrementPlayerOne),
+    () =>
+      playerOneLife + incrementPlayerOne >= 0 &&
+      setPlayerOneLife(playerOneLife + incrementPlayerOne),
     incrementPlayerOne !== 0 ? INCREMENT_INTERVAL_MS : null
   );
   useInterval(
-    () => setPlayerTwoLife(playerTwoLife + incrementPlayerTwo),
+    () =>
+      playerTwoLife + incrementPlayerTwo >= 0 &&
+      setPlayerTwoLife(playerTwoLife + incrementPlayerTwo),
     incrementPlayerTwo !== 0 ? INCREMENT_INTERVAL_MS : null
   );
 
@@ -70,7 +74,9 @@ const TwoPlayer = ({
         <RotateSection>
           <ChevronDown
             onHold={() => setIncrementPlayerOne(-1)}
-            onClick={() => setPlayerOneLife(playerOneLife - 1)}
+            onClick={() =>
+              playerOneLife > 0 && setPlayerOneLife(playerOneLife - 1)
+            }
           />
           <LifePoints>{playerOneLife}</LifePoints>
           <ChevronUp
@@ -95,7 +101,9 @@ const TwoPlayer = ({
       <Section backgroundColor={colors.robinsEggBlue}>
         <ChevronDown
           onHold={() => setIncrementPlayerTwo(-1)}
-          onClick={() => setPlayerTwoLife(playerTwoLife - 1)}
+          onClick={() =>
+            playerTwoLife > 0 && setPlayerTwoLife(playerTwoLife - 1)
+          }
         />
         <LifePoints>{playerTwoLife}</LifePoints>
         <ChevronUp

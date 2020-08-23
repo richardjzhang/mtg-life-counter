@@ -46,19 +46,27 @@ const FourPlayer = ({
   const [incrementPlayerFour, setIncrementPlayerFour] = useState(0);
 
   useInterval(
-    () => setPlayerOneLife(playerOneLife + incrementPlayerOne),
+    () =>
+      playerOneLife + incrementPlayerOne >= 0 &&
+      setPlayerOneLife(playerOneLife + incrementPlayerOne),
     incrementPlayerOne !== 0 ? INCREMENT_INTERVAL_MS : null
   );
   useInterval(
-    () => setPlayerTwoLife(playerTwoLife + incrementPlayerTwo),
+    () =>
+      playerTwoLife + incrementPlayerTwo >= 0 &&
+      setPlayerTwoLife(playerTwoLife + incrementPlayerTwo),
     incrementPlayerTwo !== 0 ? INCREMENT_INTERVAL_MS : null
   );
   useInterval(
-    () => setPlayerThreeLife(playerThreeLife + incrementPlayerThree),
+    () =>
+      playerThreeLife + incrementPlayerThree >= 0 &&
+      setPlayerThreeLife(playerThreeLife + incrementPlayerThree),
     incrementPlayerThree !== 0 ? INCREMENT_INTERVAL_MS : null
   );
   useInterval(
-    () => setPlayerFourLife(playerFourLife + incrementPlayerFour),
+    () =>
+      playerFourLife + incrementPlayerFour >= 0 &&
+      setPlayerFourLife(playerFourLife + incrementPlayerFour),
     incrementPlayerFour !== 0 ? INCREMENT_INTERVAL_MS : null
   );
 
@@ -94,7 +102,9 @@ const FourPlayer = ({
           <RotateSectionColumn transform="rotateZ(90deg)">
             <ChevronDown
               onHold={() => setIncrementPlayerOne(-1)}
-              onClick={() => setPlayerOneLife(playerOneLife - 1)}
+              onClick={() =>
+                playerOneLife > 0 && setPlayerOneLife(playerOneLife - 1)
+              }
             />
             <LifePoints>
               <LifePointsColumn>{playerOneLife}</LifePointsColumn>
@@ -110,7 +120,9 @@ const FourPlayer = ({
           <RotateSectionColumn transform="rotateZ(-90deg)">
             <ChevronDown
               onHold={() => setIncrementPlayerTwo(-1)}
-              onClick={() => setPlayerTwoLife(playerTwoLife - 1)}
+              onClick={() =>
+                playerTwoLife > 0 && setPlayerTwoLife(playerTwoLife - 1)
+              }
             />
             <LifePoints>
               <LifePointsColumn>{playerTwoLife}</LifePointsColumn>
@@ -140,7 +152,9 @@ const FourPlayer = ({
           <RotateSectionColumn transform="rotateZ(90deg)">
             <ChevronDown
               onHold={() => setIncrementPlayerThree(-1)}
-              onClick={() => setPlayerThreeLife(playerThreeLife - 1)}
+              onClick={() =>
+                playerThreeLife > 0 && setPlayerThreeLife(playerThreeLife - 1)
+              }
             />
             <LifePoints>
               <LifePointsColumn>{playerThreeLife}</LifePointsColumn>
@@ -156,7 +170,9 @@ const FourPlayer = ({
           <RotateSectionColumn transform="rotateZ(-90deg)">
             <ChevronDown
               onHold={() => setIncrementPlayerFour(-1)}
-              onClick={() => setPlayerFourLife(playerFourLife - 1)}
+              onClick={() =>
+                playerFourLife > 0 && setPlayerFourLife(playerFourLife - 1)
+              }
             />
             <LifePoints>
               <LifePointsColumn>{playerFourLife}</LifePointsColumn>
