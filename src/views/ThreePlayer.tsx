@@ -45,15 +45,21 @@ const ThreePlayer = ({
   const [incrementPlayerThree, setIncrementPlayerThree] = useState(0);
 
   useInterval(
-    () => setPlayerOneLife(playerOneLife + incrementPlayerOne),
+    () =>
+      playerOneLife + incrementPlayerOne >= 0 &&
+      setPlayerOneLife(playerOneLife + incrementPlayerOne),
     incrementPlayerOne !== 0 ? INCREMENT_INTERVAL_MS : null
   );
   useInterval(
-    () => setPlayerTwoLife(playerTwoLife + incrementPlayerTwo),
+    () =>
+      playerTwoLife + incrementPlayerTwo >= 0 &&
+      setPlayerTwoLife(playerTwoLife + incrementPlayerTwo),
     incrementPlayerTwo !== 0 ? INCREMENT_INTERVAL_MS : null
   );
   useInterval(
-    () => setPlayerThreeLife(playerThreeLife + incrementPlayerThree),
+    () =>
+      playerThreeLife + incrementPlayerThree >= 0 &&
+      setPlayerThreeLife(playerThreeLife + incrementPlayerThree),
     incrementPlayerThree !== 0 ? INCREMENT_INTERVAL_MS : null
   );
 
@@ -81,7 +87,9 @@ const ThreePlayer = ({
         <RotateSection>
           <ChevronDown
             onHold={() => setIncrementPlayerOne(-1)}
-            onClick={() => setPlayerOneLife(playerOneLife - 1)}
+            onClick={() =>
+              playerOneLife > 0 && setPlayerOneLife(playerOneLife - 1)
+            }
           />
           <LifePoints>{playerOneLife}</LifePoints>
           <ChevronUp
@@ -108,7 +116,9 @@ const ThreePlayer = ({
           <RotateSectionColumn transform="rotateZ(90deg)">
             <ChevronDown
               onHold={() => setIncrementPlayerTwo(-1)}
-              onClick={() => setPlayerTwoLife(playerTwoLife - 1)}
+              onClick={() =>
+                playerTwoLife > 0 && setPlayerTwoLife(playerTwoLife - 1)
+              }
             />
             <LifePoints>
               <LifePointsColumn>{playerTwoLife}</LifePointsColumn>
@@ -124,7 +134,9 @@ const ThreePlayer = ({
           <RotateSectionColumn transform="rotateZ(-90deg)">
             <ChevronDown
               onHold={() => setIncrementPlayerThree(-1)}
-              onClick={() => setPlayerThreeLife(playerThreeLife - 1)}
+              onClick={() =>
+                playerThreeLife > 0 && setPlayerThreeLife(playerThreeLife - 1)
+              }
             />
             <LifePoints>
               <LifePointsColumn>{playerThreeLife}</LifePointsColumn>
